@@ -44,7 +44,57 @@ fun main(){
     //named parameters
     calcularSueldo(10.00, bonoEspecial = 20.00)
     calcularSueldo(tasa = 13.00, bonoEspecial = 20.00, sueldo = 10.00)
+
+    //Uso de clases
+    val sumaUno = Suma(1,1)
+    val sumaDos = Suma(null, 1)
+    val sumaTres = Suma(1, null)
+    val sumaCuatro = Suma(null, null)
+    sumaUno.sumar();
+    sumaDos.sumar();
+    sumaTres.sumar();
+    sumaCuatro.sumar();
+    println(Suma.pi)
+    println(Suma.elevarAlCuadrado(2))
+    println(Suma.historialSumas)
+
+    // ARREGLOS ------------------------
+    // Estáticos
+    val arregloEstatico: Array<Int> = arrayOf<Int>(1,2,3)
+    println(arregloEstatico)
+    //Dinamicos
+    val arregloDinamico:ArrayList<Int> = arrayListOf<Int>(1,2,3,4,5,6,7,8,9)
+    println(arregloDinamico)
+
+    arregloDinamico.add(11)
+    arregloDinamico.add(12)
+    println(arregloDinamico)
+
+    //Operadores para iterar en arreglos
+    // for each -> Unit
+    println("Arreglo dinamico: ")
+    val respuestaForEach: Unit = arregloDinamico.forEach{
+        valorActual : Int -> print("${valorActual}, ")
+    }
+    println("\nArreglo estático:")
+    // para funcines con un solo parámetro usamos IT
+    arregloEstatico.forEach{ print(" ${it}, ") }
+
+    //Operador MAP para modificar/cambiar el arreglo
+    // map -> new array
+    val respuestaMap : List<Double> = arregloDinamico.map{
+        valorActual: Int ->
+        return@map valorActual.toDouble() + 100.00
+    }
+
+    println("\n"+respuestaMap)
+    val respuestaDos = arregloDinamico.map{it+15}
+    println(respuestaDos)
+
 }
+
+
+
 
 fun imprimirNombre(nombre:String): Unit{
     println("Nombre: $nombre") // Template String
@@ -90,7 +140,10 @@ abstract class Numeros(protected val numeroUno:Int, protected val numeroDos:Int)
     }
 }
 
-class Suma(parametroUno:Int, parametroDos: Int) :Numeros(parametroUno, parametroDos){
+
+class Suma(parametroUno:Int,
+           parametroDos: Int) :Numeros(parametroUno,
+                                        parametroDos){
 
     public val SoyPublicoExplicito:String = "Explicito"
     val soyPublicoImplicito: String = "Implicito"
@@ -104,6 +157,25 @@ class Suma(parametroUno:Int, parametroDos: Int) :Numeros(parametroUno, parametro
         this.SoyPublicoExplicito
         soyPublicoImplicito
     }
+
+    // CONSTRUCTORES SECUNDARIOS ---------------------------------------------
+    constructor(uno:Int?, dos:Int):this(
+        if(uno== null) 0 else uno,
+        dos
+    )
+
+    constructor(uno:Int, dos:Int?):this(
+        uno,
+        if(dos== null) 0 else dos
+    )
+
+    constructor(uno:Int?, dos:Int?):this(
+        if(uno== null) 0 else uno,
+        if(dos== null) 0 else dos
+    )
+
+
+
 
     //public - es opcional
     fun sumar():Int{
