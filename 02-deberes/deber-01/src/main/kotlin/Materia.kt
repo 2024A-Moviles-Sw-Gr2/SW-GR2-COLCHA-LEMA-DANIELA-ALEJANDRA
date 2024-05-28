@@ -1,6 +1,7 @@
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Materia(
     protected val fechaCreacion: Date = Date(),
@@ -17,13 +18,11 @@ class Materia(
         this.promedio
     }
 
+
     companion object {
 
         //MAC path
-        //val materiaFileName ="/Users/colchita/Projects/SW-GR2-COLCHA-LEMA-DANIELA-ALEJANDRA/02-deberes/deber-01/src/main/materias.txt"
-
-        //WINDOWS path
-        val materiaFileName = ""
+        val materiaFileName ="/Users/colchita/Projects/SW-GR2-COLCHA-LEMA-DANIELA-ALEJANDRA/02-deberes/deber-01/src/main/materias.txt"
 
         val fileMateria = File(materiaFileName)
         val dateFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -98,5 +97,32 @@ class Materia(
             fileMateria.appendText("\n${materiaUpdated.toString().trimStart('[').trimEnd(']')}")
         }
 
+        fun buscarMaterias(nombres:ArrayList<String>):ArrayList<Materia>{
+            val materias =  ArrayList<Materia>()
+            val lineas = fileMateria.readLines()
+            lineas.forEach { linea: String ->
+                val materia = linea.split(", ").toList()
+                nombres.forEach { nombre: String ->
+                    if (nombre == materia[2]){
+                        materias.add(
+                            Materia(
+                                idMateria = materia[1].toInt(),
+                                nombreMateria = materia[2],
+                                obligatoria = materia[3].toBoolean(),
+                                promedio = materia[4].toDouble()
+                            )
+                        )
+                    }
+                }
+            }
+
+            return materias
+        }
+    }
+
+    override fun toString(): String {
+        return "{ id: $idMateria," +
+                " nombre: $nombreMateria', obligatoria:$obligatoria, " +
+                "promedio:$promedio}"
     }
 }
