@@ -1,1 +1,3 @@
-3, Alejandra Colcha, 9.15, 7, MATERIAS--[{ id: 1006, nombre: Biologia', obligatoria:false, promedio:6.1}, { id: 1005, nombre: Quimica', obligatoria:false, promedio:8.1}]--
+2005, Miguel Santos, 8.5, 5, MATERIAS--[{ id: 1003, nombre: Algebra', obligatoria:false, promedio:8.3}, { id: 1005, nombre: Quimica', obligatoria:false, promedio:8.5}]--
+2002, Abigail Herrera, 9.15, 7, MATERIAS--[{ id: 1006, nombre: Biologia', obligatoria:false, promedio:6.1}, { id: 1005, nombre: Quimica', obligatoria:false, promedio:6.5}]--
+2004, Juan perez, 6.2, 8, MATERIAS--[{ id: 1003, nombre: Algebra', obligatoria:false, promedio:8.3}]--
