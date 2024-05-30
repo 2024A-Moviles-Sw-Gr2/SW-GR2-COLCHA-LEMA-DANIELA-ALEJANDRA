@@ -125,12 +125,11 @@ fun main(){
             return@reduce acumulado + valorActual
         }
     println("Valor acumulado: ${respuestaReduce}")
+
+
 }
 
-
-
-
-
+//FUNCIONES ------------
 fun imprimirNombre(nombre:String): Unit{
     println("Nombre: $nombre") // Template String
 }
@@ -149,6 +148,7 @@ fun calcularSueldo(
     }
 }
 
+//CLASES ----------------
 abstract class NumerosJava{
     protected val numeroUno:Int
     private val numeroDos:Int
