@@ -2,6 +2,7 @@ package com.example.a2024a_swgr2_dacl
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +24,6 @@ class ACicloVda : AppCompatActivity() {
         snack.show()
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,11 +34,6 @@ class ACicloVda : AppCompatActivity() {
             insets
         }
 
-        val botonACicloVda = findViewById<Button>(R.id.btn_ciclo_vida)
-
-        botonACicloVda.setOnClickListener{
-            irActividad(ACicloVda::class.java)
-        }
         mostrarSnackbar("OnCreate")
     }
 
@@ -67,13 +62,36 @@ class ACicloVda : AppCompatActivity() {
         mostrarSnackbar("onStop")
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
         mostrarSnackbar("onDestroy")
     }
 
-    fun irActividad( clase: Class<*>){
-        val intent = Intent(this, clase)
-        startActivity(intent)
+
+
+    override fun onSaveInstanceState(outState: Bundle){
+        //Guardamos variable
+        outState.run{
+            putString("textoGuardado", textoGlobal)
+        }
+
+        super.onSaveInstanceState(outState)
     }
+
+    override fun onRestoreInstanceState(
+        savedInstanceState: Bundle,
+    ) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        //Recuperar variable
+        val textoRecuperado: String? = savedInstanceState.getString("textoGuardado")
+        if(textoRecuperado != null){
+            mostrarSnackbar(textoRecuperado)
+            textoGlobal = textoRecuperado
+        }
+
+    }
+
+
 }
