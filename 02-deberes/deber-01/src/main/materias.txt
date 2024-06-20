@@ -1,3 +1,3 @@
 21/05/2024, 1003, Algebra,  true, 8.3
-21/05/2024, 1005, Quimica,  true, 8.2
-21/05/2024, 1001, Fisica,  true, 8.1
+27/05/2024, 1006, Biologia,  true, 6.1
+29/05/2024, 1005, Quimica,  true, 8.5
