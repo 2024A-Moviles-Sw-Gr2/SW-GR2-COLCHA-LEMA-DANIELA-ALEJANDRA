@@ -25,6 +25,12 @@ class MainActivity : AppCompatActivity() {
             irActividad(ACicloVda::class.java)
         }
 
+        val botonBListView = findViewById<Button>(R.id.btn_ir_list_view)
+
+        botonBListView.setOnClickListener {
+            irActividad(BListView::class.java)
+        }
+
     }
 
     fun irActividad( clase: Class<*>){

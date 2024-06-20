@@ -1,5 +1,6 @@
 package com.example.a2024a_swgr2_dacl
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -42,6 +44,7 @@ class BListView : AppCompatActivity() {
         botonAnadirListView.setOnClickListener{
             addEntrenador(adaptador)
         }
+        registerForContextMenu(listView)
     }
 
     var posicionItemSeleccionado = 1
@@ -77,7 +80,36 @@ class BListView : AppCompatActivity() {
         }
     }
 
-    fun abrirDialogo(){}
+    fun abrirDialogo(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Desea Eliminar?")
+        builder.setPositiveButton(
+            "Aceptar",
+            DialogInterface.OnClickListener{
+                    dialog, which ->
+                mostrarSnackbar("Acepto $which")
+            }
+        )
+        builder.setNegativeButton("Cancelar", null)
+        val opciones = resources.getStringArray(
+            R.array.sa_opciones
+        )
+        val seleccionPrevia = booleanArrayOf(
+            true, // Lunes,
+            false, // Martes,
+            false, // Miercoles
+        )
+        builder.setMultiChoiceItems(
+            opciones,
+            seleccionPrevia,
+            {
+                    dialog, which, isChecked ->
+                mostrarSnackbar("Item: $which")
+            }
+        )
+        val dialogo = builder.create()
+        dialogo.show()
+    }
 
     fun addEntrenador(adaptador: ArrayAdapter<BEntrenador>){
         arreglo.add(
@@ -88,7 +120,7 @@ class BListView : AppCompatActivity() {
 
     fun mostrarSnackbar(texto: String){
         val snack = Snackbar.make(
-            findViewById(R.id.cl_ciclo_vida),
+            findViewById(R.id.cl_list_view),
             texto,
             Snackbar.LENGTH_INDEFINITE)
         snack.show()
