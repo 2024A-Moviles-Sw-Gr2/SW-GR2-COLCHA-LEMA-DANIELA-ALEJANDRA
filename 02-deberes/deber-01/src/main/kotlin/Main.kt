@@ -3,41 +3,58 @@ fun main() {
 
     // MATERIA ---------
     //Crear materia
-    Materia.crearMateria(Materia(idMateria = 1001,
+    Materia.run {
+        crearMateria(Materia(idMateria = 1001,
                             nombreMateria = "Fisica",
                             obligatoria = true,
                             promedio =  6.1))
 
-    //Visualizar Materias
-    Materia.verMaterias()
+        //Visualizar Materias
+        verMaterias()
+    }
 
+    println("<<<<<<<<<<<<<<<< Eliminar Materia >>>>>>>>>>>>>>>>")
     //Eliminar Materia
-    Materia.eliminarMateria("Fisica")
+    Materia.run {
+        eliminarMateria("Fisica")
+        verMaterias()
+    }
 
+    println("<<<<<<<<<<<<<<<<<Actulizar Materia>>>>>>>>>>>>>>>>>")
     //Actualizar materia
-    Materia.actualizarMateria(idMateria = 1005, promedio = 8.5)
+    Materia.run {
+        actualizarMateria(idMateria = 1005, promedio = 5.1)
+        verMaterias()
+    }
 
     // ESTUDIANTE--------------
-
     //Crear Estudiante
-    val materiasEstudiante = arrayListOf("Algebra","Quimica")
+    val materiasEstudiante = arrayListOf("Quimica")
 
-    Estudiante.crearEstudiante(Estudiante(2005,
-                            "Miguel Santos",
-                                8.5, 5,
-                            Materia.buscarMaterias(materiasEstudiante))
-    )
+    Estudiante.run {
+        crearEstudiante(Estudiante(2006,
+                            "Catalina Perez",
+                                9.2, 6,
+                            Materia.buscarMaterias(materiasEstudiante)))
+        //Ver Estudiantes
+        verEstudiantes()
+    }
 
-    //Ver Estudiantes
-    Estudiante.verEstudiantes()
-
+    println("<<<<<<<<<<<<<<<< Eliminar Estudiante >>>>>>>>>>>>>>>>")
     //Eliminar Estudiante
-    Estudiante.eliminarEstudiante(2003)
+    Estudiante.run {
+        eliminarEstudiante(2006)
+        verEstudiantes()
+    }
 
+    println("<<<<<<<<<<<<<<<< Actualizar Estudiante >>>>>>>>>>>>>>>>")
     //Actualizar Estudiante
-    Estudiante.actualizarEstudiante(2002, nombreEstudiante = "Abigail Herrera")
-    Estudiante.actualizarEstudiante(2004, promedioGeneral = 6.2)
-    Estudiante.verEstudiantes()
+    Estudiante.run {
+        actualizarEstudiante(2002, nombreEstudiante = "Martina Revelo")
+        actualizarEstudiante(2004, promedioGeneral = 10.0)
+        verEstudiantes()
+    }
+
 }
 
 
