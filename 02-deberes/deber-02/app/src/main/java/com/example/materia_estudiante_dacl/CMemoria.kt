@@ -37,5 +37,29 @@ class CMemoria {
                 }
             }
         }
+
+        fun idNuevoEstudiante() : Int{
+            return estudiantes.last().id + 1
+        }
+
+        fun idNuevaMateria() : Int{
+            return materias.last().id + 1
+        }
+
+        fun actualizarMateria(materia : BMateriasEntity){
+            val materialIndex = materias.indexOfFirst { it.id == materia.id }
+            if (materialIndex != -1) {
+                materias[materialIndex] = materia
+            }
+        }
+
+        fun eliminarMateriaEst(idEst :Int, idMateria:Int){
+            val estIndex = estudiantes.indexOfFirst { it.id == idEst }
+            val materias = estudiantes[estIndex].materias
+            val materiaIndex = estudiantes[estIndex].materias!!.indexOfFirst { it == idMateria}
+            materias!!.removeAt(materiaIndex)
+            estudiantes[estIndex].materias = materias
+
+        }
     }
 }

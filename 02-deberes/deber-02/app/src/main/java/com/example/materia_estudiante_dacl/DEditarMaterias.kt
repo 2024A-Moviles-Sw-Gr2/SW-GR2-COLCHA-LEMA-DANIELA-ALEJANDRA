@@ -33,10 +33,16 @@ class DEditarMaterias : AppCompatActivity() {
         }
 
         val guardarBtn = findViewById<Button>(R.id.btn_save_mat)
-        guardarBtn.setOnClickListener{response()}
+        guardarBtn.setOnClickListener{
+            if(materia!= null){
+                responseEditar()
+            }else{
+                responseCrear()
+            }
+        }
     }
 
-    fun response(){
+    fun responseEditar(){
 
         val response = Intent()
 
@@ -46,6 +52,22 @@ class DEditarMaterias : AppCompatActivity() {
         val materiaModificada = BMateriasEntity(id, nombre, descripcion)
 
         response.putExtra("materiaModificada", materiaModificada)
+
+        setResult(RESULT_OK, response)
+        finish()
+
+    }
+
+    fun responseCrear(){
+
+        val response = Intent()
+
+        val nombre = findViewById<EditText>(R.id.input_nombre_mat).text.toString()
+        val descripcion = findViewById<EditText>(R.id.input_descripcion).text.toString()
+
+        val materia= BMateriasEntity(CMemoria.idNuevaMateria(), nombre, descripcion)
+
+        response.putExtra("materiaNueva", materia)
 
         setResult(RESULT_OK, response)
         finish()

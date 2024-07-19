@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name" translatable="false">Materia-Estudiante-DACL</string>
+    <string name="create" translatable="false">Crear</string>
+    <string name="edit" translatable="false">Editar</string>
+    <string name="delete" translatable="false">Eliminar</string>
+    <string name="save" translatable="false">Guardar</string>
+    <string name="view_subjects" translatable="false"> Ver Materias</string>
+</resources>

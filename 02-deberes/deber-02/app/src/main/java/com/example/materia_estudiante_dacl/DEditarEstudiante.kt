@@ -28,19 +28,25 @@ class DEditarEstudiante : AppCompatActivity() {
         var estudiante = intent.getParcelableExtra<AEstudianteEntity>("estudiante")
 
         if (estudiante != null) {
-            findViewById<EditText>(R.id.input_nombre_est).setText(estudiante!!.nombre)
-            findViewById<EditText>(R.id.input_semestre).setText(estudiante!!.semestre.toString())
-            findViewById<EditText>(R.id.input_promedio).setText(estudiante!!.promedio.toString())
+            findViewById<EditText>(R.id.input_nombre_est).setText(estudiante.nombre)
+            findViewById<EditText>(R.id.input_semestre).setText(estudiante.semestre.toString())
+            findViewById<EditText>(R.id.input_promedio).setText(estudiante.promedio.toString())
             id = estudiante.id
             materias = estudiante.materias
         }
 
 
         val guardarBtn = findViewById<Button>(R.id.btn_save)
-        guardarBtn.setOnClickListener{response()}
+        guardarBtn.setOnClickListener{
+            if(estudiante!= null){
+                responseEditar()
+            }else{
+                responseCrear()
+            }
+        }
     }
 
-    fun response(){
+    private fun responseEditar(){
 
         val response = Intent()
 
@@ -51,6 +57,23 @@ class DEditarEstudiante : AppCompatActivity() {
         val estudianteModificado = AEstudianteEntity(id, nombre, semestre, promedio, materias )
 
         response.putExtra("estudianteModificado", estudianteModificado)
+
+        setResult(RESULT_OK, response)
+        finish()
+
+    }
+
+    private fun responseCrear(){
+
+        val response = Intent()
+
+        val nombre = findViewById<EditText>(R.id.input_nombre_est).text.toString()
+        val semestre = findViewById<EditText>(R.id.input_semestre).text.toString().toInt()
+        val promedio = findViewById<EditText>(R.id.input_promedio).text.toString().toDouble()
+
+        val estudiante = AEstudianteEntity(CMemoria.idNuevoEstudiante(), nombre, semestre, promedio, materias )
+
+        response.putExtra("estudianteNuevo", estudiante)
 
         setResult(RESULT_OK, response)
         finish()
