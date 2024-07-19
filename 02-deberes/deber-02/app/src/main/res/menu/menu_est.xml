@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/id_mi_editar_est"
+        android:title="@string/edit" />
+    <item
+        android:id="@+id/id_mi_eliminar_est"
+        android:title="@string/delete" />
+    <item
+        android:id="@+id/id_mi_ver_materias"
+        android:title="@string/view_subjects" />
+</menu>

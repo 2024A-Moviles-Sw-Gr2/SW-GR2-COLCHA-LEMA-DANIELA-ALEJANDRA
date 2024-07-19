@@ -118,6 +118,17 @@ class MainActivity : AppCompatActivity() {
             )
             callbackContenidoIntentExplicito.launch(intentExplicito)
         }
+
+        //Inicializar base de datos
+        EBaseDeDatos.tablaEntrenador = ESqliteHelperEntrenador(
+            this
+        )
+
+        val btnSQLite = findViewById<Button>(R.id.btn_sqlite)
+        btnSQLite.setOnClickListener {
+            irActividad(ECrudEntrenador::class.java)
+        }
+
     }
 
     fun irActividad( clase: Class<*>){

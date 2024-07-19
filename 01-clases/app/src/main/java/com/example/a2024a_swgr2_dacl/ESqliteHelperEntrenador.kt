@@ -92,7 +92,7 @@ class ESqliteHelperEntrenador(
                 arregloParametrosConsultaLectura
             )
 
-        //Logica de busqueda
+        //BUSQUEDA
         //Recibimos un arreglo que puede o no ser nulo
         val existeAlmenosUno = resultadosConsultaLectura.moveToFirst()
         val arregloRespuesta = arrayListOf<BEntrenador>()
@@ -109,6 +109,6 @@ class ESqliteHelperEntrenador(
         }
         resultadosConsultaLectura.close()
         baseDatosLectura.close()
-        return arregloRespuesta[0]
+        return if(arregloRespuesta.size >0) arregloRespuesta[0] else null
     }
 }
