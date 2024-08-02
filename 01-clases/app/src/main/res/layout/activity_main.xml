@@ -109,4 +109,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.648" />
 
+    <Button
+        android:id="@+id/btn_firebase"
+        android:layout_width="160dp"
+        android:layout_height="58dp"
+        android:text="FIrebase-auth"
+        tools:layout_editor_absoluteX="246dp"
+        tools:layout_editor_absoluteY="611dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
