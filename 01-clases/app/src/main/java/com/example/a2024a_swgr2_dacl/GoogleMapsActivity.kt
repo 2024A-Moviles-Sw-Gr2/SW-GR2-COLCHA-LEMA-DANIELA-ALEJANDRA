@@ -33,6 +33,7 @@ class GoogleMapsActivity : AppCompatActivity() {
         }
         solicitarPermisos()
         iniciarLogicaMapa()
+        escucharListeners()
 
         val btn_carolina =  findViewById<Button>(R.id.btn_ir_carolina)
         btn_carolina.setOnClickListener {
