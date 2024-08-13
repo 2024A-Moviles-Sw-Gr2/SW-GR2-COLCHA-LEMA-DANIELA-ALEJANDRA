@@ -8,4 +8,7 @@
     <item
         android:id="@+id/id_mi_eliminar_materia"
         android:title="@string/delete" />
+    <item
+        android:id="@+id/id_ver_estudiantes"
+        android:title="@string/view_students" />
 </menu>

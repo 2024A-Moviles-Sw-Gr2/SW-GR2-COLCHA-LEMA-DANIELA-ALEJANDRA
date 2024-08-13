@@ -27,8 +27,8 @@ class DEditarMaterias : AppCompatActivity() {
         var materia = intent.getParcelableExtra<BMateriasEntity>("materia")
 
         if (materia != null) {
-            findViewById<EditText>(R.id.input_nombre_mat).setText(materia!!.nombre)
-            findViewById<EditText>(R.id.input_descripcion).setText(materia!!.descripcion)
+            findViewById<EditText>(R.id.input_nombre_mat).setText(materia.nombre)
+            findViewById<EditText>(R.id.input_descripcion).setText(materia.descripcion)
             id = materia.id
         }
 
@@ -42,32 +42,28 @@ class DEditarMaterias : AppCompatActivity() {
         }
     }
 
-    fun responseEditar(){
+    private fun responseEditar(){
 
         val response = Intent()
 
-        val nombre = findViewById<EditText>(R.id.input_nombre_mat).text.toString()
-        val descripcion = findViewById<EditText>(R.id.input_descripcion).text.toString()
-
-        val materiaModificada = BMateriasEntity(id, nombre, descripcion)
-
-        response.putExtra("materiaModificada", materiaModificada)
+        EDatabase.tables!!.actualizarMateria(
+            id,
+            findViewById<EditText>(R.id.input_nombre_mat).text.toString(),
+            findViewById<EditText>(R.id.input_descripcion).text.toString()
+        )
 
         setResult(RESULT_OK, response)
         finish()
 
     }
 
-    fun responseCrear(){
+    private fun responseCrear(){
 
         val response = Intent()
-
-        val nombre = findViewById<EditText>(R.id.input_nombre_mat).text.toString()
-        val descripcion = findViewById<EditText>(R.id.input_descripcion).text.toString()
-
-        val materia= BMateriasEntity(CMemoria.idNuevaMateria(), nombre, descripcion)
-
-        response.putExtra("materiaNueva", materia)
+        EDatabase.tables!!.crearMateria(
+            findViewById<EditText>(R.id.input_nombre_mat).text.toString(),
+            findViewById<EditText>(R.id.input_descripcion).text.toString()
+        )
 
         setResult(RESULT_OK, response)
         finish()

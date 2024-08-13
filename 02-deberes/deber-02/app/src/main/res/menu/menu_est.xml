@@ -9,6 +9,6 @@
         android:id="@+id/id_mi_eliminar_est"
         android:title="@string/delete" />
     <item
-        android:id="@+id/id_mi_ver_materias"
-        android:title="@string/view_subjects" />
+        android:id="@+id/id_mi_est_ubicacion"
+        android:title="@string/location" />
 </menu>

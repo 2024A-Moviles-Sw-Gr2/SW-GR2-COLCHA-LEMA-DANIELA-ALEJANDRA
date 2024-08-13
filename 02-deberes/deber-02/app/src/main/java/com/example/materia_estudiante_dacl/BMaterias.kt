@@ -22,9 +22,6 @@ import com.google.android.material.snackbar.Snackbar
 
 class BMaterias : AppCompatActivity() {
 
-    var materias = arrayListOf<BMateriasEntity>()
-    var idEst = 1
-
     //DEFINICIÓN INTENT
     val callbackFormularioMateria=registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -32,26 +29,12 @@ class BMaterias : AppCompatActivity() {
                 result ->
             if(result.resultCode == Activity.RESULT_OK){
                 if(result.data != null){
-                    var msg = ""
-                    val materiaModificada = result.data!!.getParcelableExtra<BMateriasEntity>("materiaModificada")
-                    val materiaNueva = result.data!!.getParcelableExtra<BMateriasEntity>("materiaNueva")
-
-                    if (materiaModificada!=null){
-                        materias.removeAt(index)
-                        materias.add(index, materiaModificada)
-                        CMemoria.actualizarMateria(materiaModificada)
-
-                    }else if(materiaNueva!= null){
-                        materias.add(materiaNueva)
-                        CMemoria.materias.add(materiaNueva)
-                        CMemoria.agregarMateriaEstudiante(idEst, materiaNueva)
-                    }
 
                     val listView = findViewById<ListView>(R.id.list_materias)
                     val adaptador = ArrayAdapter(
                         this,
                         android.R.layout.simple_list_item_1,
-                        materias
+                        EDatabase.tables!!.getMaterias()
                     )
                     listView.adapter = adaptador
                     adaptador.notifyDataSetChanged()
@@ -69,23 +52,17 @@ class BMaterias : AppCompatActivity() {
             insets
         }
 
-        val estudiante = intent.getParcelableExtra<AEstudianteEntity>("estudiante")
-
-        if (estudiante != null) {
-            findViewById<TextView>(R.id.id_estudiante_nom).setText(estudiante.nombre)
-            val materiasEst = estudiante.materias
-
-            materias = CMemoria.materias.filter { materiasEst!!.contains(it.id) } as ArrayList<BMateriasEntity>
-
-            idEst = estudiante.id
-        }
+        //Inicializar base de datos
+        EDatabase.tables = ESqliteHelper(
+            this
+        )
 
         //Colocar datos en Lista
         val listView = findViewById<ListView>(R.id.list_materias)
         val adaptador = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
-            materias
+            EDatabase.tables?.getMaterias() ?: emptyList()
         )
         listView.adapter = adaptador
         adaptador.notifyDataSetChanged()
@@ -98,15 +75,6 @@ class BMaterias : AppCompatActivity() {
             crearMateria(adaptador)
         }
         registerForContextMenu(listView)
-
-        val btnVolver = findViewById<Button>(
-            R.id.btn_back
-        )
-
-        btnVolver.setOnClickListener{
-            val intent = Intent(this,AEstudiantes::class.java)
-            startActivity(intent)
-        }
 
     }
 
@@ -146,41 +114,46 @@ class BMaterias : AppCompatActivity() {
                     this,
                     DEditarMaterias::class.java
                 )
+                val materias = EDatabase.tables!!.getMaterias()
 
-                intentEditar.putExtra("materia", materias.get(index))
+                intentEditar.putExtra("materia", materias[index])
                 callbackFormularioMateria.launch(intentEditar)
 
                 return true
             }
             R.id.id_mi_eliminar_materia->{
-
-                val listView = findViewById<ListView>(R.id.list_materias)
-                val adaptador = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    materias
-                )
-                listView.adapter = adaptador
-                abrirDialogo(index, adaptador)
+                abrirDialogo(index)
+                return true
+            }
+            R.id.id_ver_estudiantes->{
+                val materias = EDatabase.tables!!.getMaterias()
+                val intent = Intent(this,AEstudiantes::class.java)
+                intent.putExtra("materia", materias[index].nombre)
+                intent.putExtra("id", materias[index].id)
+                startActivity(intent)
                 return true
             }
             else -> super.onContextItemSelected(item)
         }
     }
 
-    private fun abrirDialogo(index:Int,
-                             adapter: ArrayAdapter<BMateriasEntity>
-    ){
+    private fun abrirDialogo(index:Int){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Eliminar materia?")
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener{
                     dialog, which ->
-                materias.removeAt(index)
-                val materiaEliminada = materias[index].id
-                CMemoria.eliminarMateriaEst(idEst, materiaEliminada)
-                adapter.notifyDataSetChanged()
+                EDatabase.tables!!.eliminarMateria(index+1)
+
+                val listView = findViewById<ListView>(R.id.list_materias)
+                val adaptador = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    EDatabase.tables!!.getMaterias()
+                )
+                listView.adapter = adaptador
+                adaptador.notifyDataSetChanged()
             }
         )
         builder.setNegativeButton("Cancelar", null)

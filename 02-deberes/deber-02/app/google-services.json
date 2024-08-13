@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846783818523",
+    "project_id": "materia-estudiante-dacl",
+    "storage_bucket": "materia-estudiante-dacl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846783818523:android:fa79a1a08e25eb70ad01be",
+        "android_client_info": {
+          "package_name": "com.example.materia_estudiante_dacl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGZNWJmMFCSpHv7-T3BM-XAzCuePXwxuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

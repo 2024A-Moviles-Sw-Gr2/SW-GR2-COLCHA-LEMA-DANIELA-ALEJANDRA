@@ -8,18 +8,17 @@ class AEstudianteEntity (
     var nombre:String,
     var semestre: Int,
     var promedio: Double,
-    var materias: MutableList<Int>?
+    var materia: Int,
+    var ubicacion: String
 ):Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readString()!!,
+        parcel.readString().toString(),
         parcel.readInt(),
         parcel.readDouble(),
-        parcel.readArrayList(Int::class.java.classLoader) as MutableList<Int>
-    ) {}
-
-    override fun toString(): String {
-        return nombre
+        parcel.readInt(),
+        parcel.readString().toString()
+    ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -27,11 +26,16 @@ class AEstudianteEntity (
         parcel.writeString(nombre)
         parcel.writeInt(semestre)
         parcel.writeDouble(promedio)
-        parcel.writeList(materias)
+        parcel.writeInt(materia)
+        parcel.writeString(ubicacion)
     }
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun toString(): String {
+        return nombre
     }
 
     companion object CREATOR : Parcelable.Creator<AEstudianteEntity> {
@@ -43,4 +47,5 @@ class AEstudianteEntity (
             return arrayOfNulls(size)
         }
     }
+
 }

@@ -3,6 +3,14 @@
     <string name="create" translatable="false">Crear</string>
     <string name="edit" translatable="false">Editar</string>
     <string name="delete" translatable="false">Eliminar</string>
+    <string name="location" translatable="false">Ver ubicación</string>
     <string name="save" translatable="false">Guardar</string>
-    <string name="view_subjects" translatable="false"> Ver Materias</string>
+    <string name="view_students" translatable="false"> Ver Estudiantes</string>
+    <string-array name="ubicaciones">
+        <item>EPN</item>
+        <item>PUCE</item>
+        <item>UPS</item>
+        <item>UCE</item>
+        <item>UDLA</item>
+    </string-array>
 </resources>

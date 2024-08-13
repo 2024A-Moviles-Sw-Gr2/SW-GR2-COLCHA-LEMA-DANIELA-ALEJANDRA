@@ -11,16 +11,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.snackbar.Snackbar
+import kotlin.math.E
 
 class AEstudiantes : AppCompatActivity() {
 
+    var id_materia = 0
 
     //DEFINICIÓN INTENT
     val callbackFormularioEstudiante=
@@ -30,23 +32,12 @@ class AEstudiantes : AppCompatActivity() {
                 result ->
             if(result.resultCode == Activity.RESULT_OK){
                 if(result.data != null){
-                    val estudianteModificado = result.data!!.getParcelableExtra<AEstudianteEntity>("estudianteModificado")
-                    val estudianteNuevo = result.data!!.getParcelableExtra<AEstudianteEntity>("estudianteNuevo")
-
-                    if (estudianteModificado!= null){
-
-                        CMemoria.estudiantes.removeAt(index)
-                        CMemoria.estudiantes.add(index, estudianteModificado)
-
-                    }else if(estudianteNuevo!= null){
-                        CMemoria.estudiantes.add(estudianteNuevo)
-                    }
 
                     val listView = findViewById<ListView>(R.id.list_est)
                     val adaptador = ArrayAdapter(
                         this,
                         android.R.layout.simple_list_item_1,
-                        CMemoria.estudiantes
+                        EDatabase.tables!!.getEstudiantes(id_materia)
                     )
                     listView.adapter = adaptador
                     adaptador.notifyDataSetChanged()
@@ -57,19 +48,27 @@ class AEstudiantes : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_estudiantes)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cl_estudiantes)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
+        val materia = intent.getStringExtra("materia")
+        id_materia = intent.getIntExtra("id", 0)
+
+        if (materia != null) {
+            findViewById<TextView>(R.id.id_nombre_materia).setText(materia)
+        }
+
+
         //Colocar datos en Lista
         val listView = findViewById<ListView>(R.id.list_est)
         val adaptador = ArrayAdapter(
             this,
             android.R.layout.simple_list_item_1,
-            CMemoria.estudiantes
+            EDatabase.tables!!.getEstudiantes(id_materia)
         )
         listView.adapter = adaptador
         adaptador.notifyDataSetChanged()
@@ -91,6 +90,7 @@ class AEstudiantes : AppCompatActivity() {
             DEditarEstudiante::class.java
         )
 
+        intent.putExtra("id_materia", id_materia)
         callbackFormularioEstudiante.launch(intentCrear)
     }
 
@@ -117,45 +117,46 @@ class AEstudiantes : AppCompatActivity() {
                     this,
                     DEditarEstudiante::class.java
                 )
-
-                intentEditar.putExtra("estudiante", CMemoria.estudiantes.get(index))
+                val estudiantes = EDatabase.tables!!.getEstudiantes(id_materia)
+                intentEditar.putExtra("estudiante", estudiantes[index])
                 callbackFormularioEstudiante.launch(intentEditar)
-
 
                 return true
             }
             R.id.id_mi_eliminar_est->{
-
-                val listView = findViewById<ListView>(R.id.list_est)
-                val adaptador = ArrayAdapter(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    CMemoria.estudiantes
-                )
-                listView.adapter = adaptador
-                abrirDialogo(index, adaptador)
+                abrirDialogo(index)
                 return true
             }
-            R.id.id_mi_ver_materias->{
-                val intent = Intent(this,BMaterias::class.java)
-                intent.putExtra("estudiante", CMemoria.estudiantes.get(index))
+            R.id.id_mi_est_ubicacion->{
+                val ubicacion = EDatabase.tables!!.getEstudiantes(id_materia)[index].ubicacion
+
+                val intent = Intent(this,FMapActivity::class.java)
+                intent.putExtra("ubicacion", ubicacion)
                 startActivity(intent)
+
                 return true
             }
             else -> super.onContextItemSelected(item)
         }
     }
 
-    private fun abrirDialogo(index:Int,
-                             adapter: ArrayAdapter<AEstudianteEntity>){
+    private fun abrirDialogo(index:Int ){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Desea Eliminar?")
         builder.setPositiveButton(
             "Aceptar",
             DialogInterface.OnClickListener{
                     dialog, which ->
-                CMemoria.estudiantes.removeAt(index)
-                adapter.notifyDataSetChanged()
+                EDatabase.tables!!.eliminarEstudiante(index+1)
+                val listView = findViewById<ListView>(R.id.list_est)
+                val adaptador = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    EDatabase.tables!!.getEstudiantes(id_materia)
+                )
+                listView.adapter = adaptador
+
+                adaptador.notifyDataSetChanged()
             }
         )
         builder.setNegativeButton("Cancelar", null)

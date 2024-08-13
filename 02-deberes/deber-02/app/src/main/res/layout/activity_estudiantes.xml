@@ -7,19 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".AEstudiantes">
 
+    <ListView
+        android:id="@+id/list_est"
+        android:layout_width="357dp"
+        android:layout_height="392dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.601" />
+
     <TextView
         android:id="@+id/id_title"
         android:layout_width="205dp"
         android:layout_height="47dp"
         android:text="Estudiantes"
         android:textSize="34sp"
-        android:textStyle="bold"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.073" />
+        app:layout_constraintVertical_bias="0.195" />
 
     <Button
         android:id="@+id/id_btn_crear_est"
@@ -32,18 +42,23 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintHorizontal_bias="0.307"
         app:layout_constraintStart_toEndOf="@+id/id_title"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.073" />
+        app:layout_constraintVertical_bias="0.192" />
 
-    <ListView
-        android:id="@+id/list_est"
-        android:layout_width="357dp"
-        android:layout_height="392dp"
+    <TextView
+        android:id="@+id/id_nombre_materia"
+        android:layout_width="273dp"
+        android:layout_height="58dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.071" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

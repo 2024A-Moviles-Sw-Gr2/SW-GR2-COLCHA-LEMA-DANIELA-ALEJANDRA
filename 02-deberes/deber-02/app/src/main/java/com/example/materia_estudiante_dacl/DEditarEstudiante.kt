@@ -2,8 +2,12 @@ package com.example.materia_estudiante_dacl
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,7 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 class DEditarEstudiante : AppCompatActivity() {
 
     var id : Int= 1
-    var materias : MutableList<Int>? = arrayListOf<Int>()
+    var ubicacionSpinner = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,16 +29,43 @@ class DEditarEstudiante : AppCompatActivity() {
             insets
         }
 
+        val spinner: Spinner = findViewById(R.id.sp_ubiaciones)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.ubicaciones,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                ubicacionSpinner = parent.getItemAtPosition(position).toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No hacer nada
+            }
+        }
+
         var estudiante = intent.getParcelableExtra<AEstudianteEntity>("estudiante")
 
         if (estudiante != null) {
             findViewById<EditText>(R.id.input_nombre_est).setText(estudiante.nombre)
             findViewById<EditText>(R.id.input_semestre).setText(estudiante.semestre.toString())
             findViewById<EditText>(R.id.input_promedio).setText(estudiante.promedio.toString())
+            findViewById<EditText>(R.id.input_materia).setText(estudiante.materia.toString())
             id = estudiante.id
-            materias = estudiante.materias
+
+            val ubicacionesArray = resources.getStringArray(R.array.ubicaciones)
+            val posicionInicial = ubicacionesArray.indexOf(estudiante.ubicacion)
+            spinner.setSelection(posicionInicial)
+            ubicacionSpinner = estudiante.ubicacion
         }
 
+        val materia = intent.getIntExtra("id_materia", 1)
+        findViewById<EditText>(R.id.input_materia).setText(materia.toString())
 
         val guardarBtn = findViewById<Button>(R.id.btn_save)
         guardarBtn.setOnClickListener{
@@ -50,13 +81,14 @@ class DEditarEstudiante : AppCompatActivity() {
 
         val response = Intent()
 
-        val nombre = findViewById<EditText>(R.id.input_nombre_est).text.toString()
-        val semestre = findViewById<EditText>(R.id.input_semestre).text.toString().toInt()
-        val promedio = findViewById<EditText>(R.id.input_promedio).text.toString().toDouble()
-
-        val estudianteModificado = AEstudianteEntity(id, nombre, semestre, promedio, materias )
-
-        response.putExtra("estudianteModificado", estudianteModificado)
+        EDatabase.tables!!.actualizarEstudiante(
+            id,
+            findViewById<EditText>(R.id.input_nombre_est).text.toString(),
+            findViewById<EditText>(R.id.input_semestre).text.toString().toInt(),
+            findViewById<EditText>(R.id.input_promedio).text.toString().toDouble(),
+            findViewById<EditText>(R.id.input_materia).text.toString().toInt(),
+            ubicacionSpinner
+        )
 
         setResult(RESULT_OK, response)
         finish()
@@ -67,13 +99,13 @@ class DEditarEstudiante : AppCompatActivity() {
 
         val response = Intent()
 
-        val nombre = findViewById<EditText>(R.id.input_nombre_est).text.toString()
-        val semestre = findViewById<EditText>(R.id.input_semestre).text.toString().toInt()
-        val promedio = findViewById<EditText>(R.id.input_promedio).text.toString().toDouble()
-
-        val estudiante = AEstudianteEntity(CMemoria.idNuevoEstudiante(), nombre, semestre, promedio, materias )
-
-        response.putExtra("estudianteNuevo", estudiante)
+        EDatabase.tables!!.crearEstudiante(
+            findViewById<EditText>(R.id.input_nombre_est).text.toString(),
+            findViewById<EditText>(R.id.input_semestre).text.toString().toInt(),
+            findViewById<EditText>(R.id.input_promedio).text.toString().toDouble(),
+            findViewById<EditText>(R.id.input_materia).text.toString().toInt(),
+            ubicacionSpinner
+        )
 
         setResult(RESULT_OK, response)
         finish()

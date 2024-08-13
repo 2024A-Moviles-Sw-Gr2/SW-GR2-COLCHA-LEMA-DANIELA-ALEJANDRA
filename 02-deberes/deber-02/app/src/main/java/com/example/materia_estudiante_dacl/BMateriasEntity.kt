@@ -6,13 +6,13 @@ import android.os.Parcelable
 class BMateriasEntity(
     var id: Int,
     var nombre: String,
-    var descripcion: String?
+    var descripcion: String
 ):Parcelable{
 
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString().toString(),
-        parcel.readString()
+        parcel.readString().toString()
     ) {
     }
 
