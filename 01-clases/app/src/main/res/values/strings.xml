@@ -8,4 +8,6 @@
         <item>Miercoles</item>
     </string-array>
     <string name="title_activity_frecycler_view">FRecyclerView</string>
+    <string name="title_activity_google_maps">GoogleMapsActivity</string>
+    <string name="title_activity_google_maps_inicio">GoogleMapsInicio</string>
 </resources>
